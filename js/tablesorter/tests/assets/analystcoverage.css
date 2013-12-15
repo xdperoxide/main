@@ -1,0 +1,108 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+	.analysttable{
+		margin-bottom:26px;
+		}
+		.analysttable th{
+			height:20px;
+			background-color:#a3a3a3;
+			color:#fff;
+			text-align:left;
+		}
+		.analysttable th span{
+			padding-right:18px;
+			background:url(../images/investors/thspanbg.png) no-repeat center right;
+		}
+		.analysttable th.th1{
+			padding-left:5px;	
+		}
+		.analysttable th.th1 span{
+			padding-right:18px;
+			background:url(../images/investors/thspanbg.png) no-repeat center right;
+		}
+		.analysttable td{
+			padding:20px 0 20px 6px;
+			border-bottom:1px dashed #DEDEDE;
+			text-align:left;
+			vertical-align:top;
+		}
+		.analysttable td.td1{
+			padding-left:10px;	
+		}
+		.analysttable .td2{
+			padding-right:20px;
+			text-align:right;
+		}
+a.btn_back{
+	color:#84888B;
+	float:right;
+	display:block;
+	padding:0 8px;
+	border-left:1px solid #94989A;
+	border-right:1px solid #94989A;
+	}
+
+/*hsbcsecurities */	
+.downloadtable{
+	border-top:1px solid #E6E7E8 !important;
+/*	margin-top:16px;*/
+	}
+	.downloadtable th{
+		padding:30px 0;
+		text-align:left;
+		border-bottom:1px solid #E6E7E8;	
+	}
+	.downloadtable th select{
+		border:1px solid #A6A6A6;
+		margin-left:4px;
+		padding-left:7px;
+		width:86px;
+		}
+		.downloadtable th option{
+			padding-left:7px;
+			}
+	.downloadtable td{
+		border-bottom:1px solid #E6E7E8;
+		padding:20px 0;
+		text-align:left;
+		vertical-align:top;	
+	}
+	.downloadtable .noborder {
+		border:0px;
+	}
+	.downloadtable .topborder {
+		border-top:1px solid #E6E7E8;
+		border-bottom:0px;
+	}
+		.downloadtable td.tddownload a{
+			color:#7A7A7A;
+			}
+		.downloadtable td img{
+			vertical-align:bottom;
+			margin-right:6px;
+			}
+		.downloadtable td span{
+			font-size:11px;
+			color:#BABDBE;
+			}	
+	.downloadtable td.td1{
+		padding-left:8px;
+		border-bottom:1px solid #E6E7E8;	
+	}
+	.downloadtable td.td2{
+		float:left;
+		color:#ff6633;
+		font-size:13px;
+		font-weight: normal;
+		height:184px;
+		width:330px;		
+	}	
+/* thomas_tangwingyung */
+	a.btn_return{
+		color:#84888B;
+		float:right;
+		display:block;
+		padding-top:24px;
+		padding-bottom:15px;
+	}

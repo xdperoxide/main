@@ -1,0 +1,169 @@
+<html>
+ <head>
+ <style>
+	a {
+		text-decoration: none;	
+	}
+	
+	a:visited, a:link{
+		color: white;
+	}
+	
+	a:hover{
+		color: #292929;
+		background-color: white;
+	}
+	
+	.scrollBar {		
+		height: 150px;
+		position: relative;
+		width: 800px;
+		overflow: hidden;
+		margin: 0px 10px 0px 10px;
+	}
+	
+	.first {
+		-webkit-animation-name:scrolling;
+		-webkit-animation-duration: 300s;		
+		-webkit-animation-iteration-count: infinite;
+		-webkit-animation-direction: linear;
+	}	
+	
+	@-webkit-keyframes scrolling {
+	  0%{
+		margin-left: 0px;
+		}
+	  100%{
+		margin-left: 800px;
+		}
+	}
+	
+	#cuscls{
+		background-image: none;
+		text-align:right;
+		color: #ffffff;
+		font-family:Arial;
+		size: 10px;
+	}
+	
+	.shower > li{
+		width: 150px;
+		background-color: #cccccc;  
+		float: left;
+		color: white;  
+		list-style: none;
+	} 
+	
+	.listPane > li {
+		position: relative;
+		right: 30px;
+		list-style: none;
+		border-bottom: 1px solid black;		
+	}
+	
+	.active {
+		border: 1px solid red;
+		background-color: red;
+		opacity: 0.4;
+	}
+	
+	#highlightList > li {
+		list-style: none;
+		background-color: transparent;
+	}
+	</style>
+	<link rel="stylesheet" href="../source/jquery.fancybox.css?v=2.1.5" type="text/css" media="screen" />
+	<link rel="stylesheet" href="../source/helpers/jquery.fancybox-buttons.css?v=1.0.5" type="text/css" media="screen" />
+	<link rel="stylesheet" href="../source/helpers/jquery.fancybox-thumbs.css?v=1.0.7" type="text/css" media="screen" />
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+	<script type="text/javascript" src="../source/jquery.fancybox.pack.js?v=2.1.5"></script>
+	<script type="text/javascript" src="../source/helpers/jquery.fancybox-buttons.js?v=1.0.5"></script>
+	<script type="text/javascript" src="../source/helpers/jquery.fancybox-media.js?v=1.0.6"></script>	
+	<script type="text/javascript" src="../source/helpers/jquery.fancybox-thumbs.js?v=1.0.7"></script>
+ <script>
+	$(document).ready(function() {
+	$(".fancybox").fancybox({
+		transitionIn:	'elastic',
+		transitionOut:	'elastic',
+		overlayShow:	false,
+		padding: 0,
+		tpl:{
+			closeBtn : '<div title="Close" id="cuscls" class="fancybox-item fancybox-close">[Close]</div>'
+		}
+	});
+	
+	$( ".shower > li" ).hover(function() {
+		$(this).find(".listPane").slideToggle({
+			duration: 1000,
+			complete: function(){
+				$(this).animate({
+					backgroundColor: "#292929"
+				}, 1000);
+			}
+		});
+	});
+	
+	$("#iFopener").fancybox({
+		width: "30%",
+		height: "15%",
+		autoSacle: false,
+		type: "iframe",
+		padding: 0,
+		wrapCSS: "iframeBg" //use the custome styling layout
+	});
+	
+	$("#highlightList").find("li").each(function(){
+		$(this).click(function() {
+			$(this).find("a").toggleClass("active");
+		});
+	});
+});
+ </script>
+ </head>
+   <body>   
+	<div id="container" class="scrollBar">
+		<a href="1_b.jpg" class="fancybox" rel="group1"><img src="1_s.jpg" class="first" alt="" /></a>
+		<a href="2_b.jpg" class="fancybox" rel="group1"><img src="2_s.jpg" alt="" /></a>
+		<a href="3_b.jpg" class="fancybox" rel="group1"><img src="3_s.jpg" alt="" /></a>
+		<a href="4_b.jpg" class="fancybox" rel="group1"><img src="4_s.jpg" alt="" /></a>
+		<a href="5_b.jpg" class="fancybox" rel="group1"><img src="5_s.jpg" alt="" /></a>
+	</div>
+	<div>
+		<ul id ="menu" class="shower">
+			<li>Show list1
+				<ul class="listPane" style="display:none">
+					<li>Item 1</li>
+					<li>Item 2</li>
+					<li>Item 3</li>
+					<li>Item 4</li>
+				</ul>
+			</li>
+			<li>Show list2
+				<ul class="listPane" style="display:none">
+					<li>Item 1</li>
+					<li>Item 2</li>
+					<li>Item 3</li>
+					<li>Item 4</li>
+				</ul>
+			</li>
+			<li>Show list3
+				<ul class="listPane" style="display:none">
+					<li><a href="#iframeCon" class="fancybox">Open inline pane</a></li>
+					<li><a id="iFopener" href="iframe.html" class="fancybox fancybox.iframe">Open iframe</a></li>
+					<li>Item 3</li>
+					<li>Item 4</li>
+				</ul>				
+			<li>Show list4</li>
+		</ul>
+	</div>	
+	</div>
+	<div style="position:absolute; top: 150px; right: 200px">
+		<ul id="highlightList">
+			<li style="background-image:url('1_s.jpg');"><a href="#">List 1&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+			<li style="background-image:url('2_s.jpg');"><a href="#">List 2&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+			<li style="background-image:url('3_s.jpg');"><a href="#">List 3&nbsp;&nbsp;&nbsp;&nbsp;</a></li>
+		</ul>
+	</div>
+   </body>
+</html>

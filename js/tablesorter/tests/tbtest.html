@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html>
+<head>
+<title>Test for tablesorter</title>
+	<link href="assets/analystcoverage.css" rel="stylesheet" type="text/css" />
+	<style>
+	.headerSortUp span {
+		background: url(../tests/images/investors/thspanasc.png) no-repeat center right!important;
+	}
+	.headerSortDown span {
+		background: url(../tests/images/investors/thspandesc.png) no-repeat center right!important;
+	}
+	.analysttable th:not(.header) span{
+		background: #a3a3a3; 
+	}
+	</style>
+	<script type="text/javascript" src="../jquery-latest.js"></script>
+	<script type="text/javascript" src="../jquery.tablesorter.js"></script>
+	<script type="text/javascript">
+	$(function() {
+		$("#analysttb").tablesorter({
+		// pass the headers argument and assing a object 
+        headers:{ 
+			3:{ 
+                // disable it by setting the property sorter to false 
+                sorter: false 
+				}
+			}
+		});
+	});
+	</script>
+	
+<body>
+	<table width="100%" border="0" cellspacing="0" cellpadding="0" class="tablesorter analysttable" id="analysttb">
+	  <thead>
+	  <tr>
+		<th scope="col" width="140" class="th1"><span>Date</span></th>
+		<th scope="col" width="218"><span>Research House</span></th>
+		<th scope="col" width="209" colspan="2"><span>Analyst</span></th>
+		<th scope="col" colspan="2"><span>Phone</span></th>
+	  </tr>
+	  </thead>
+	  <tbody>
+	  <tr>
+		<td class="td1" width="130">2013-10-12</td>
+		<td width="212">HSBC Securities (Asia) Ltd</td>
+		<td width="135">Emily Lee</td>
+		<td width="68"><a href="#" title="">E-mail</a></td>
+		<td class="td2" width="110">852 2996 6531</td>
+		<td width="37"><a href="http://static.me.hk/kl/eng/investors/analystcoverage/hsbcsecurities.jsp" title="">More</a></td>
+	  </tr>
+	  <tr>
+		<td class="td1">2013-08-12</td>
+		<td>Morgan Stanley</td>
+		<td>Ebru Sener Kurumlu</td>
+		<td><a href="#" title="">E-mail</a></td>
+		<td class="td2">886 2 2376 3727</td>
+		<td><a href="http://static.me.hk/kl/eng/investors/analystcoverage/hsbcsecurities.jsp" title="">More</a></td>
+	  </tr>
+	  <tr>
+		<td class="td1">2013-09-13</td>
+		<td>Sales Representative</td>
+		<td>Emily Lee</td>
+		<td><a href="#" title="">E-mail</a></td>
+		<td class="td2">886 2 2376 3727</td>
+		<td><a href="http://static.me.hk/kl/eng/investors/analystcoverage/hsbcsecurities.jsp" title="">More</a></td>
+	  </tr>
+	  </tbody>
+	</table>
+</body>
+</html>				
