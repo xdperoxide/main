@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Drawing MyRoute</title>
+		<!-- Must add here if map width height is by percentage. 
+	  e.g. height: 100%; is always relative to the parent's height. 
+	  The setting is to make sure the parent height is not zero. -->
+	<style>
+      *{
+        margin:0px;
+        padding:0px;
+      }
+	  
+	  html, body { height: 100%; }			  
+	  
+	  .routeList{
+		display: inline;
+		float:left;
+		background-color: #70B870;  
+	  }
+	  
+	  li > ul {		
+		display: none;
+		padding: 0px 5px 0px 5px;
+		text-align: left;
+		position: relative;
+	  }
+	  
+	  li:hover ul {
+		display:block;
+		background-color: #C6E3C6;
+	  }
+	  
+	  ul.subOrderList{
+		display: none;	
+		position: absolute;
+		top: 20px;
+		left: 50px;
+		background-color: #C6E3C6;
+	  }
+	  	   
+	  a:link,a:visited{
+		text-decoration:none;
+		text-align: center;
+		padding: 2px 5px 2px 5px;		
+		color: #1A4C1A;
+	  } 
+	  
+	  a:hover,a:active{
+		background-color: #C6E3C6;
+		text-decoration:none;
+		font-weight:bold;
+		color: #006600;
+	  }
+	  
+	  .banner {	 	
+		position: absolute;		
+		top: 10%;	
+		left: 5%;
+		float:left;	
+		z-index:1;			
+	  }  
+		#map-canvas {
+			width:100%;
+			height:100%;
+			z-index:1;
+		}
+		#pano-pane{
+			position:absolute;
+			height:50%;
+			width:35%;
+			top:2%;
+			left:1%;
+			z-index:3;
+		}
+		#pano-pane text {
+			display: none;
+		}
+		#closebtn{
+			position:absolute;
+			top:0%;
+			left:35%;
+			z-index:4;
+		}
+		#loadingmsg {
+			position:absolute;
+			top:5%;
+			left:50%;
+			margin:auto;
+			background-color:grey;
+			line-htight:15px;
+			z-index:5;
+		}
+	</style>
+	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>	
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+    <script>
+	var poly;
+	var evtpath = new Array();
+	var map;
+	var mk;	
+	var panorama;
+	var i = 1;
+	var sv = new google.maps.StreetViewService();
+	var hongKong = new google.maps.LatLng(22.336807,114.176021);
+	var MyRoutePath = [
+		new google.maps.LatLng(22.30734,114.232884),
+		new google.maps.LatLng(22.312233,114.226361),
+		new google.maps.LatLng(22.315558,114.218915),
+		new google.maps.LatLng(22.323339,114.213991),
+		new google.maps.LatLng(22.334931,114.209087),
+		new google.maps.LatLng(22.339813,114.201695),
+		new google.maps.LatLng(22.341689,114.193863),
+		new google.maps.LatLng(22.338027,114.187029),
+		new google.maps.LatLng(22.336807,114.176021)
+	];
+	
+	function drawRoute(pathValue){
+		var RoutePath = new google.maps.Polyline({
+			path: pathValue,
+			geodesic: true,
+			strokeColor: '#006600',
+			strokeOpacity: 1.0,
+			strokeWeight: 2
+		  });
+		
+		MyRoutePath.forEach(function(m){
+			if(m == MyRoutePath[0]){
+				mk = new google.maps.Marker({
+				position: m,
+				icon: './images/flag.png',
+				map: map,
+				title: "pt " + i,
+			});
+			}
+			mk = new google.maps.Marker({
+				position: m,
+				map: map,
+				title: "pt " + i,
+			});
+			i++;
+		  });
+		RoutePath.setMap(map);
+		
+	var infoWindow = new google.maps.InfoWindow();
+	infoWindow.setContent("Start");
+	infoWindow.setPosition(pathValue[0]);
+	infoWindow.open(map);
+	var infoWindow2 = new google.maps.InfoWindow();
+	infoWindow2.setContent("End");
+	infoWindow2.setPosition(pathValue[pathValue.length-1]);
+	infoWindow2.open(map);
+	}
+
+function initialize() {	
+  var mapOptions = {
+    zoom: 17,
+    center: hongKong,
+	mapTypeControl: true,
+	mapTypeControlOptions:{
+		position: google.maps.ControlPosition.RIGHT_CENTER,
+		style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+	},
+	zoomControl: true,
+    zoomControlOptions: {
+	  position: google.maps.ControlPosition.RIGHT_TOP,
+      style: google.maps.ZoomControlStyle.LARGE
+    },
+	panControlOptions: {
+		position: google.maps.ControlPosition.TOP_RIGHT
+	}	
+  };
+ 
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+	 google.maps.event.addListener(map, 'click', drawCustomPath);
+	 google.maps.event.addListener(map, 'click' ,function(event) {
+		sv.getPanoramaByLocation(event.latLng, 50, processSVData);
+	 }); 
+	 
+    var panoramaOptions = {
+    position: hongKong,
+	addressControl:false,
+	panControlOptions: {
+		position: google.maps.ControlPosition.RIGHT_TOP
+	},
+	zoomControlOptions: {
+      style: google.maps.ZoomControlStyle.SMALL
+    },
+    pov: {
+      heading: 34,
+      pitch: 0
+    }
+  };
+  panorama = new google.maps.StreetViewPanorama(document.getElementById("pano-pane"),panoramaOptions);
+  map.setStreetView(panorama);
+	
+ }
+	
+function processSVData(data, status) {
+	map.panTo(data.location.latLng);
+  if (status == google.maps.StreetViewStatus.OK) {
+    var marker = new google.maps.Marker({
+      position: data.location.latLng,
+      map: map,
+      title: data.location.description
+    });
+
+    panorama.setPano(data.location.pano);
+    panorama.setPov({
+      heading: 270,
+      pitch: 0
+    });
+    panorama.setVisible(true);
+
+    } else {
+    alert('Street View data not found for this location.');
+  }
+}
+
+function drawCustomPath(event) {
+	evtpath.push(event.latLng);
+  // Add a new marker at the new plotted point on the polyline.
+  var marker = new google.maps.Marker({
+    position: event.latLng,
+    title: '#' + evtpath.length,
+    draggable: true,
+	map: map	
+  });
+
+  var poly = new google.maps.Polyline({
+	path: evtpath,
+	strokeColor: '#ff0000',
+    strokeOpacity: 1.0,
+    strokeWeight: 3 
+  });  
+	
+	poly.setMap(map);
+	
+}
+google.maps.event.addDomListener(window, 'load', initialize);
+
+function showSubList(listId){
+	$sublist = $(listId);
+	$sublist.slideToggle( "slow" );
+}
+$(function(){
+	var loc = new google.maps.LatLng(22.25,114.18); 
+	$( window ).load(function() {
+	  $("#loadingmsg").fadeOut(1500);	  
+	});
+	$("#closebtn").click(function(){
+		$("#pano-pane").toggle(1,function(){			
+			if($(this).is(":hidden")){
+				$("#closebtn").attr("src","images/view.png");
+			} else {
+				$("#closebtn").attr("src","images/stop.png");
+			}
+		});		
+	});
+});
+	
+ </script>
+  </head>
+  <body>
+  <div class="banner" id="controlBanner" style="display:none;">
+		<ul>
+			<li id="showRoute" onclick="drawRoute(MyRoutePath);" class="routeList"><a href="#">showRoute</a></li>
+			<li class="routeList" onclick="showSubList('#sL1');"><a href="#sL1">Route 1</a></li>				
+			<li class="routeList">Route 2
+				<ul>
+					<li>This is a sublist</li>
+					<li>This is a sublist</li>
+				</ul>
+			</li>
+			<li class="routeList"><a href="#">Route 3</a></li>
+			<li class="routeList"><a href="#">Route 4</a></li>
+		</ul><br>
+		<ul id="sL1" class="subOrderList">
+					<ol>Sight 1</ol>
+					<ol>Sight 2</ol>
+					<ol>Sight 3</ol>
+					<ol>Sight 4</ol>
+					<ol>Sight 5</ol>
+				</ul>			
+	</div>
+	<div id="map-canvas">
+		 <!-- I am a map --> 
+	</div>
+	<div id="pano-pane">
+		 <!-- I am street view -->
+	</div>
+	<p id="loadingmsg">Map is loading.</p>
+	<img id="closebtn" src="images/stop.png" alt="Click to close panaroma"></img>
+	
+  </body>
+</html>
