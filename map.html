@@ -93,11 +93,45 @@
 			line-htight:15px;
 			z-index:5;
 		}
+		#sitepanel{
+			width:37.5%;
+			height:8%;
+			min-height:23%;
+			z-index:5;
+			display:none;
+			position:absolute;
+			top:-10%;
+			right:2%;
+			opacity:0;
+			background-color:white;
+			text-align:center;
+		}
+		#sitepanel > div {
+			margin:10px auto;
+			min-height:100%;
+		}
+		#sitepanel img {
+			width:100px;
+			height:100px;
+		}
+		#sitepanelbtn{
+			position:absolute;
+			right:15%;
+			top:0%;
+			width:60px;
+			line-height:15px;
+			text-align: center;
+			background-color:lightgrey;
+			border-radius: 0px 0px 10px 10px;
+			z-index:10;
+			opacity:1.0;			
+			}
+		
 	</style>
 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>	
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
     <script>
-	var poly;
+	var poly=null;
 	var evtpath = new Array();
 	var map;
 	var mk;	
@@ -195,18 +229,17 @@ function initialize() {
     }
   };
   panorama = new google.maps.StreetViewPanorama(document.getElementById("pano-pane"),panoramaOptions);
-  map.setStreetView(panorama);
-	
+  map.setStreetView(panorama);	
  }
 	
 function processSVData(data, status) {
-	map.panTo(data.location.latLng);
+	//map.panTo(data.location.latLng);
   if (status == google.maps.StreetViewStatus.OK) {
-    var marker = new google.maps.Marker({
+    /*var marker = new google.maps.Marker({
       position: data.location.latLng,
       map: map,
       title: data.location.description
-    });
+    });*/
 
     panorama.setPano(data.location.pano);
     panorama.setPov({
@@ -220,26 +253,33 @@ function processSVData(data, status) {
   }
 }
 
-function drawCustomPath(event) {
-	evtpath.push(event.latLng);
-  // Add a new marker at the new plotted point on the polyline.
+function drawCustomPath(event) {	
+  // Add a new marker and save in an array.
   var marker = new google.maps.Marker({
     position: event.latLng,
     title: '#' + evtpath.length,
-    draggable: true,
+    draggable:true,
+	clickable:true,
+	animation: google.maps.Animation.DROP,
 	map: map	
   });
-
-  var poly = new google.maps.Polyline({
-	path: evtpath,
-	strokeColor: '#ff0000',
-    strokeOpacity: 1.0,
-    strokeWeight: 3 
-  });  
-	
-	poly.setMap(map);
-	
+	evtpath.push(marker);
+	google.maps.event.addListener(marker, 'click', function(){
+		var info = new google.maps.InfoWindow({
+			content:this.title,
+			position:this.position,
+			zIndex:4
+		});
+		info.open(map,this);
+	});
+	google.maps.event.addListener(marker, 'dragend', function(){
+		var idx = evtpath.indexOf(this);
+		evtpath[idx] = this;
+		console.log("after dragging the marker: /n");
+		console.log(evtpath);
+	});  
 }
+
 google.maps.event.addDomListener(window, 'load', initialize);
 
 function showSubList(listId){
@@ -249,7 +289,9 @@ function showSubList(listId){
 $(function(){
 	var loc = new google.maps.LatLng(22.25,114.18); 
 	$( window ).load(function() {
-	  $("#loadingmsg").fadeOut(1500);	  
+	  $("#loadingmsg").fadeOut(1000);
+	  setTimeout(
+	  $("#drawRoute").fadeIn(1500),1500);
 	});
 	$("#closebtn").click(function(){
 		$("#pano-pane").toggle(1,function(){			
@@ -259,6 +301,29 @@ $(function(){
 				$("#closebtn").attr("src","images/stop.png");
 			}
 		});		
+	});
+	$('#sitepanelbtn').click(function(){
+		$(this).css('opacity','0');
+		$('#sitepanel').css('display','block')
+			.animate({top:"0%",opacity:"1.0"},1500);
+	});
+	$("#drawRoute").click(function(){
+		if(poly!=null){
+			poly.setOptions({path:[]});
+		}
+		var polypath=new Array();
+		evtpath.forEach(function(e){
+			polypath.push(e.position);
+		});
+		
+		//draw the path along the markers
+		poly = new google.maps.Polyline({
+			path: polypath,
+			strokeColor: '#ff0000',
+			strokeOpacity: 1.0,
+			strokeWeight: 3 
+		});  	
+		poly.setMap(map);
 	});
 });
 	
@@ -293,6 +358,23 @@ $(function(){
 		 <!-- I am street view -->
 	</div>
 	<p id="loadingmsg">Map is loading.</p>
+	<button id="drawRoute" style="z-index: 999;
+position: absolute;
+top: 3%;
+left: 50%;
+background-color:lightblue;
+border-radius: 5px;
+padding: 5px;
+border-color:indigo;display:none;">Log Route</button>
+	<p id="sitepanelbtn"><img src="images/arrow-down.png"></p>
+	<div id="sitepanel">
+	<div>
+		<img src="images/1.jpg" alt="item1" title="item1" />
+		<img src="images/2.jpg" alt="item2" title="item2" />
+		<img src="images/3.jpg" alt="item3" title="item3" />
+		<img src="images/4.jpg" alt="item4" title="item4" />
+		<img src="images/5.jpg" alt="item5" title="item5" />
+	</div></div>
 	<img id="closebtn" src="images/stop.png" alt="Click to close panaroma"></img>
 	
   </body>
