@@ -1,299 +1,154 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
-    <title>Drawing MyRoute</title>
-		<!-- Must add here if map width height is by percentage. 
-	  e.g. height: 100%; is always relative to the parent's height. 
-	  The setting is to make sure the parent height is not zero. -->
-	<style>
-      *{
-        margin:0px;
-        padding:0px;
-      }
-	  
-	  html, body { height: 100%; }			  
-	  
-	  .routeList{
-		display: inline;
-		float:left;
-		background-color: #70B870;  
-	  }
-	  
-	  li > ul {		
-		display: none;
-		padding: 0px 5px 0px 5px;
-		text-align: left;
-		position: relative;
-	  }
-	  
-	  li:hover ul {
-		display:block;
-		background-color: #C6E3C6;
-	  }
-	  
-	  ul.subOrderList{
-		display: none;	
-		position: absolute;
-		top: 20px;
-		left: 50px;
-		background-color: #C6E3C6;
-	  }
-	  	   
-	  a:link,a:visited{
-		text-decoration:none;
-		text-align: center;
-		padding: 2px 5px 2px 5px;		
-		color: #1A4C1A;
-	  } 
-	  
-	  a:hover,a:active{
-		background-color: #C6E3C6;
-		text-decoration:none;
-		font-weight:bold;
-		color: #006600;
-	  }
-	  
-	  .banner {	 	
-		position: absolute;		
-		top: 10%;	
-		left: 5%;
-		float:left;	
-		z-index:1;			
-	  }  
-		#map-canvas {
-			width:100%;
-			height:100%;
-			z-index:1;
-		}
-		#pano-pane{
-			position:absolute;
-			height:50%;
-			width:35%;
-			top:2%;
-			left:1%;
-			z-index:3;
-		}
-		#pano-pane text {
-			display: none;
-		}
-		#closebtn{
-			position:absolute;
-			top:0%;
-			left:35%;
-			z-index:4;
-		}
-		#loadingmsg {
-			position:absolute;
-			top:5%;
-			left:50%;
-			margin:auto;
-			background-color:grey;
-			line-htight:15px;
-			z-index:5;
-		}
-	</style>
-	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>	
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-    <script>
-	var poly;
-	var evtpath = new Array();
-	var map;
-	var mk;	
-	var panorama;
-	var i = 1;
-	var sv = new google.maps.StreetViewService();
-	var hongKong = new google.maps.LatLng(22.336807,114.176021);
-	var MyRoutePath = [
-		new google.maps.LatLng(22.30734,114.232884),
-		new google.maps.LatLng(22.312233,114.226361),
-		new google.maps.LatLng(22.315558,114.218915),
-		new google.maps.LatLng(22.323339,114.213991),
-		new google.maps.LatLng(22.334931,114.209087),
-		new google.maps.LatLng(22.339813,114.201695),
-		new google.maps.LatLng(22.341689,114.193863),
-		new google.maps.LatLng(22.338027,114.187029),
-		new google.maps.LatLng(22.336807,114.176021)
-	];
-	
-	function drawRoute(pathValue){
-		var RoutePath = new google.maps.Polyline({
-			path: pathValue,
-			geodesic: true,
-			strokeColor: '#006600',
-			strokeOpacity: 1.0,
-			strokeWeight: 2
-		  });
-		
-		MyRoutePath.forEach(function(m){
-			if(m == MyRoutePath[0]){
-				mk = new google.maps.Marker({
-				position: m,
-				icon: './images/flag.png',
-				map: map,
-				title: "pt " + i,
-			});
-			}
-			mk = new google.maps.Marker({
-				position: m,
-				map: map,
-				title: "pt " + i,
-			});
-			i++;
-		  });
-		RoutePath.setMap(map);
-		
-	var infoWindow = new google.maps.InfoWindow();
-	infoWindow.setContent("Start");
-	infoWindow.setPosition(pathValue[0]);
-	infoWindow.open(map);
-	var infoWindow2 = new google.maps.InfoWindow();
-	infoWindow2.setContent("End");
-	infoWindow2.setPosition(pathValue[pathValue.length-1]);
-	infoWindow2.open(map);
-	}
+<html lang="en">
 
-function initialize() {	
-  var mapOptions = {
-    zoom: 17,
-    center: hongKong,
-	mapTypeControl: true,
-	mapTypeControlOptions:{
-		position: google.maps.ControlPosition.RIGHT_CENTER,
-		style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
-	},
-	zoomControl: true,
-    zoomControlOptions: {
-	  position: google.maps.ControlPosition.RIGHT_TOP,
-      style: google.maps.ZoomControlStyle.LARGE
-    },
-	panControlOptions: {
-		position: google.maps.ControlPosition.TOP_RIGHT
-	}	
-  };
- 
-  map = new google.maps.Map(document.getElementById('map-canvas'),
-      mapOptions);
-	 google.maps.event.addListener(map, 'click', drawCustomPath);
-	 google.maps.event.addListener(map, 'click' ,function(event) {
-		sv.getPanoramaByLocation(event.latLng, 50, processSVData);
-	 }); 
-	 
-    var panoramaOptions = {
-    position: hongKong,
-	addressControl:false,
-	panControlOptions: {
-		position: google.maps.ControlPosition.RIGHT_TOP
-	},
-	zoomControlOptions: {
-      style: google.maps.ZoomControlStyle.SMALL
-    },
-    pov: {
-      heading: 34,
-      pitch: 0
-    }
-  };
-  panorama = new google.maps.StreetViewPanorama(document.getElementById("pano-pane"),panoramaOptions);
-  map.setStreetView(panorama);
-	
- }
-	
-function processSVData(data, status) {
-	map.panTo(data.location.latLng);
-  if (status == google.maps.StreetViewStatus.OK) {
-    var marker = new google.maps.Marker({
-      position: data.location.latLng,
-      map: map,
-      title: data.location.description
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/accordion.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" type="text/css" href="css/custom.css">
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/accordion.js"></script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    $(function() {
+        var nh = $("nav").height();
+        $(".jumbotron").css("top",nh+"px");
+        $("#place").css("top",nh+"px");
+        $(".accordion .accordion-section-title").click(function(){
+            $('html, body').animate({
+                scrollTop:  $("#hw0").offset().top-nh
+            });
+        })
+        $(".navbar-link").click(function() {
+            var href = $(this).attr('href'),
+                oset = $(href).offset().top - nh;
+            $('html, body').animate({
+                scrollTop: oset
+            }, 1000, function() {
+                $(href).addClass("open");
+                $(".sketch.open").click(function() {
+                    var dest = $(this).parents('.accordion-section-content').prev(),
+                        oset = dest.offset().top;
+                    $(this).animate({
+                        opacity: 0,
+                        height: 0,
+                        scrollTop: oset
+                    }, 1000, function() {
+
+                        //after the animation is complete, update the hash in the address bar so that the state is saved (if the user refreshed the page they can be brought back to this place, but that takes a bit more code)
+                        location.hash = dest.attr("href");
+                        $(this).removeClass("open");
+                    });
+                });
+            });
+        });
+
     });
+    </script>
+    <title>COMP5517 Human Computer Interaction Assignment Page</title>
+</head>
 
-    panorama.setPano(data.location.pano);
-    panorama.setPov({
-      heading: 270,
-      pitch: 0
-    });
-    panorama.setVisible(true);
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+          <div class="navbar-collapse" id="bs-example-navbar-collapse-6">
+          <span class="navbar-brand">Assignment</span>
+          <ul class="nav navbar-nav">
+            <li><a href="#hw0" class="navbar-link active">0</a></li>
+            <li><a href="#hw1" class="navbar-link">1</a></li>
+            <li><a href="#hw2" class="navbar-link">2</a></li>
+            <li><a href="#hw3" class="navbar-link">3</a></li>
+            <li><a href="#hw4" class="navbar-link">4</a></li>
+           </ul>
+        </div>
+        </div>
+        </nav>
+        <header class="jumbotron">
+            <div class="container">
+                <h1>COMP5517 Human Computer Interaction Assignment Page</h1>
+                <p>By Lam Ka Kei Vick <a href="mailto:14013473g@connect.polyu.hk">14013473g@connect.polyu.hk</a></p>
+            </div>
+        </header>
+        <img id="place" src="images/place.jpg">
+        <div class="accordion" id="hw0">
+        <!-- Task 2: Project ideas.
+            Pick three different project ideas that you would be interested in working on for the prototyping assignment. Make a rough sketch of a user interface and write a couple of paragraphs for each. Your paragraph should tell us:
+                - What the system will be used for (why this is needed, the functionality of the system, the motivation behind this system.)
+                - Any additional information needed to describe the interface (beyond the interface sketch.)
+        -->
+            <div>
+                <h2>Homework#0</h2>
+                <p>Project Ideas for the prototyping assignment as follow:</p>
+            </div>
+            <div class="accordion-section">
+                <a class="accordion-section-title" href="#pper1">Project Idea #1 - Website teach elderly how to use mobile phones</a>
+                <div id="pper1" class="accordion-section-content">
+                    <div>
+                        <strong>Purposes: </strong>
+                    <p>Teach elderly how to use common function of smartphones such as phone calls, take pictures, find location, instant messaging etc.</p>
+                    <strong>Functionality: </strong>
+                    <ol>
+                        <li>Interactive exercises simulates device operation</li>
+                        <li>Introduce from commonly used functions to device maanagement with situational example.</li>
+                        <li>When user completes exercise, the system will notify them with encouraging words to motivate them continuing the tutorial</li>
+                        <li>Tutorials are available according to user progress. They can 'unlock' new content after going through current content. This can prevent confusion when too many options available</li>
+                    </ol>
+                    <strong>Motivation behind this system</strong>
+                    <p>Many elderly people does not understand how to use smartphone. They do not learn using smartphone as fast as adult and need to repeat the instruction many time. They will forget the instruction after attending workshops. There are books teaching elderly people using smartphone, some of them do not know how to read. Elderly people can be benefit on using smartphone to communicate with their families and help them in daily life, especially in emergent situation such as find location, seeking help from others. Besides, keep learning new skills slows down mental degradation of elderly. An interactive tutorial can facilitate them on learning the smartphone operation. It provides situational examples for commonly used functions. As they are closely related to daily life, it is easier for elderly people to pick up the new skills as well.</p>
+                    <p>Reference: <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>&nbsp;&nbsp;<a href="http://www.e123.hk/ElderlyPro/details/248301/90" target="_blank">《長青智能手機秘笈》</a></p>
+                    <p><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>&nbsp;&nbsp;<a href="https://www.lucidchart.com/documents/view/929a1d4e-e16d-4495-b236-5029b488c90c/0" target="_blank">Interface sketch</a></p>
+                    </div>
+                </div>
+                <a class="accordion-section-title" href="#pper2">Project Idea #2 - Mutual help virtual parents community online platform</a>
+                <div id="pper2" class="accordion-section-content">
+                    <div><strong>Purpose: </strong>
+                    <p>Online platform for parents community to babysit children for each other. Community member can be either babysitter or activity organizers. For example, working parents can request for babysitter through the platform. They can choose between applicants. After completing the job both applicant and recruiter will rate each other. This will be counted as the memeber reputation to the community. In exchange of members' help, the working parents can organize weekend activities or become babysitter when they are free.</p>
+                    <strong>Regulation</strong>
+                    <p>Every member of the community should contribute constantly in order to stay at the community. They cannot offer monetary benefit to each other on the platform.</p>
+                    <strong>Functionality: </strong>
+                    <ol>
+                        <li>Categorize job by district/period/children age.</li>
+                        <li>Member can set their preference on pioritizing activities/jobs</li>
+                        <li>Protect member contact from public view. Applicants and recruiters must communicate through the platform in private messages. They will get contact of each other by email after making an agreement with each other. </li>
+                        <li>Estimate member contribution by activities held/jobs completed. The platform will suspend member's accounts if they receive bad rate on most of completed job or not contributing to the community continously. </li>
+                    </ol>
+                    <strong>Motivation behind this system</strong>
+                    <p>Not all of the working parents can afford dosmetic helper to take care of their children, but they cannot stay with their children when they go to work. On the other hand, non working parents need not stay with their children all the time. If working parents take care of their children at weekend instead, they can still enjoy personal lives. It is believed that the online platform allows parents to form such mutual help community. </p>
+                    <p><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>&nbsp;&nbsp;<a href="https://www.lucidchart.com/documents/view/929a1d4e-e16d-4495-b236-5029b488c90c/1" target="_blank">Interface sketch</a></div>
+                </div>
+                <a class="accordion-section-title" href="#pper3">Project Idea #3 - Home Recipe database</a>
+                <div id="pper3" class="accordion-section-content">
+                    <div>
+                        <strong>Purpose: </strong>
+                        <p>Gather original/modified recipes of homemade foods around the world. Author suggests cooking tips on preparing food at home. Users who follow the recipes may upload videos/photos and share their own variation with others. The database is also sponsored by food retailers such that they offer ingredients online. </p>
+                        <strong>Functionality: </strong>
+                        <ol>
+                            <li>Search recipes by cooking methods/ingridents/difficulties</li>
+                            <li>Top list common search recipes</li>
+                            <li>Calculate the amount by no. of serving</li>
+                            <li>Link to sponsor's shopping sites to shop ingreidents online</li>
+                            <li>User can post their variation for others' reference</li>
+                        </ol>
+                        <strong>Motivation behind this system</strong>
+                        <p>Those who are good at cooking may have good new cooking ideas. They know how to modify existing recipt to taste better. When the home cooker are too busy to think about what to cook, the recipes will help them to prepare a decent meal. As for the food retailers, they can make profit by selling foods directly to customers.</p>
+                        <p>Reference: <span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>&nbsp;&nbsp;<a href="http://www.thekitchn.com/">TheKitchn.com</a></p>
+                    <p><span class="glyphicon glyphicon-new-window" aria-hidden="true"></span>&nbsp;&nbsp;<a href="https://www.lucidchart.com/documents/view/12dc9e2d-0e48-4be1-acdb-59635b5e2d2f" target="_blank">Interface sketch</a></p>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+</body>
 
-    } else {
-    alert('Street View data not found for this location.');
-  }
-}
-
-function drawCustomPath(event) {
-	evtpath.push(event.latLng);
-  // Add a new marker at the new plotted point on the polyline.
-  var marker = new google.maps.Marker({
-    position: event.latLng,
-    title: '#' + evtpath.length,
-    draggable: true,
-	map: map	
-  });
-
-  var poly = new google.maps.Polyline({
-	path: evtpath,
-	strokeColor: '#ff0000',
-    strokeOpacity: 1.0,
-    strokeWeight: 3 
-  });  
-	
-	poly.setMap(map);
-	
-}
-google.maps.event.addDomListener(window, 'load', initialize);
-
-function showSubList(listId){
-	$sublist = $(listId);
-	$sublist.slideToggle( "slow" );
-}
-$(function(){
-	var loc = new google.maps.LatLng(22.25,114.18); 
-	$( window ).load(function() {
-	  $("#loadingmsg").fadeOut(1500);	  
-	});
-	$("#closebtn").click(function(){
-		$("#pano-pane").toggle(1,function(){			
-			if($(this).is(":hidden")){
-				$("#closebtn").attr("src","images/view.png");
-			} else {
-				$("#closebtn").attr("src","images/stop.png");
-			}
-		});		
-	});
-});
-	
- </script>
-  </head>
-  <body>
-  <div class="banner" id="controlBanner" style="display:none;">
-		<ul>
-			<li id="showRoute" onclick="drawRoute(MyRoutePath);" class="routeList"><a href="#">showRoute</a></li>
-			<li class="routeList" onclick="showSubList('#sL1');"><a href="#sL1">Route 1</a></li>				
-			<li class="routeList">Route 2
-				<ul>
-					<li>This is a sublist</li>
-					<li>This is a sublist</li>
-				</ul>
-			</li>
-			<li class="routeList"><a href="#">Route 3</a></li>
-			<li class="routeList"><a href="#">Route 4</a></li>
-		</ul><br>
-		<ul id="sL1" class="subOrderList">
-					<ol>Sight 1</ol>
-					<ol>Sight 2</ol>
-					<ol>Sight 3</ol>
-					<ol>Sight 4</ol>
-					<ol>Sight 5</ol>
-				</ul>			
-	</div>
-	<div id="map-canvas">
-		 <!-- I am a map --> 
-	</div>
-	<div id="pano-pane">
-		 <!-- I am street view -->
-	</div>
-	<p id="loadingmsg">Map is loading.</p>
-	<img id="closebtn" src="images/stop.png" alt="Click to close panaroma"></img>
-	
-  </body>
 </html>
