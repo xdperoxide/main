@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="../css/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../css/accordion.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/custom.css">
+    <script src="../js/jquery-1.10.2.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/accordion.js"></script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    </script>
+    <title>Bad example #1</title>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-collapse" id="bs-example-navbar-collapse-6">
+                    <span class="navbar-brand">Assignment</span>
+                    <ul class="nav navbar-nav">
+                        <li><a href="../index.html" class="navbar-link">0</a></li>
+                        <li><a href="#" class="navbar-link active">1</a></li>
+                        <li><a href="#" class="navbar-link">2</a></li>
+                        <li><a href="#" class="navbar-link">3</a></li>
+                        <li><a href="#" class="navbar-link">4</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <header>
+            <h1>Bad Exmaple #1 rthk on the go</h1>
+        </header>
+        <main class="row-fluid" role="main">
+            <article>
+                <section>
+                    <h2>Purpose</h2>
+                    <div>Radio live streaming, receive the most recent updated news from rthk, listen to program podcast</div>
+                </section>
+                <section>
+                    <h1>What and why it is bad </h1>
+                    <h2>#1 Inconsistent content between website and app</h2>
+                    <div>
+                        <p>Program review updates slower than web version. User must switch to web version to listen the latest episode. Click the more podcast button at the left top corner switches to a webview opening a list much larger than device screen width. Scrolling on the web view is inconvenient for user to select the app.</p>
+                        <strong>Suggest Improvement: </strong>
+                        <p>Sync the podcast update and news content with website. Embed the audio/video track with textual content to facilitate accessing the media. </p>
+                    </div>
+                </section>
+                <section>
+                    <div>
+                        <p>Audio/Video tracks and the textual content are separately with each other. User may not recognize whether they had viewed the video news before reading the textual report. However, they are shown together within the same report. User can play the video content via clicking an icon on the report. </p>
+                    </div>
+                    <figure>
+                        <img src="" alt="" />
+                        <figcaption>...</figcaption>
+                    </figure>
+                    <div>
+                        <strong>Suggest Improvement: </strong>
+                        <p>Review program play on foreground. User cannot read news and listen podcast at the same time. But live radio streaming is running at the background. </p>
+                    </div>
+                </section>
+                <section>
+                    <h2>#3 Ignore use of mobile device control characteristic using old and obsolete interface design</h2>
+                    <div>
+                        <p>User have to tap two small arrows button on the top to switch between news. The tolerance of button must be larger than control with mouse, as the touching area of finger is larger than mouse pointer. Instead of navigating by tapping, many mobile site or app use swiping in different direction to navigate between content. When the button size is smaller in smaller screen, navigation on smaller devices costs the same effort as on larger devices. According to Fitts' law, same task is more difficult to perform on mobile app as the control target has smaller toleranc. There is problem when user try to skip the audio precisely by scrolling the progress bar with their fingers. Mouse pointer allows user to adjust a small distance easily but much difficult with finger.</p>
+                        <strong>Suggest Improvement: </strong>
+                        <p>Make user of device gesture, e.g. swiping to facilitate control on mobile device. Provide fast forward/backward controls</p>
+                    </div>
+                </section>
+                <section>
+                    <h2>#4 Bad live streaming experience because the app always lose connection</h2>
+                    <div>
+                        <p>
+                            Live streaming stop without notifying user. User does not pay attention on the state at the bottom of the app when it is running in the background. App crashes when losing connection during program review or update news list. The app does not automatically reconnect to network whenever the connection drops out. Refresh the content does not work. User must force stop the app and reopen the app.(User cannot correct the app error, e.g. set up the schedule or network connection for content update) Problem exists for years but the developer still not able to fix it. </p>
+                        </p>
+                        <strong>Suggest Improvement: </strong>
+                        <p>Stop on current screen/last update list with an alert popup allows user to read the rest of content. Bad connection show push notification at the notification bar.</p>
+                    </div>
+                </section>
+                <section>
+                    <h2>#5 Limit font size options</h2>
+                    <p>The font size proportion also depends on screen size. But the app provides two size options only. The font size provided may not be fit on small screen (less than 4’’) or extra large screen (more than 6’’). User of small devices can choose smaller option only as the larger option expand too much on screen. On the other hand, elderly prefer larger font size but the larger option may still not big enough for them to read comfortably.</p>
+                    <strong>Suggest Improvement: </strong>
+                    <p>More flexible font size scaling, e.g. control with slider</p>
+                </section>
+            </article>
+        </main>
+    </div>
+</body>
+
+</html>
