@@ -1,4 +1,15 @@
-
+.navbar .active{
+	font-weight: bold;
+	font-size: 14px;
+	color: #337ab7!important;
+}
+#good-ex1 img{
+	width: 35%;
+	height: 35%;
+}
+#good-ex2 img{
+	width: 100%;
+}
 .jumbotron{
 	position: relative;
 	margin-top: 20px;
