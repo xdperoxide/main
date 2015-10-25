@@ -1,3 +1,11 @@
+ol,ul{ 
+	position: relative;
+	left: 2%;
+}
+header {
+	margin-top: 5%;
+}
+
 .navbar .active{
 	font-weight: bold;
 	font-size: 14px;
@@ -67,8 +75,4 @@
 	width:100%;
 	padding:0!important;
 	background-color: #333333!important;
-}
-#hw1 ol{ 
-	position: relative;
-	left: 2%;
 }
