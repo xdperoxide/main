@@ -5,7 +5,10 @@ ol,ul{
 header {
 	margin-top: 5%;
 }
-
+body {
+	overflow-x: hidden;
+	width:99%;
+}
 .navbar .active{
 	font-weight: bold;
 	font-size: 14px;
