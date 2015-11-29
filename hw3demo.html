@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Prototype demo</title>
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="css/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="css/accordion.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" type="text/css" href="css/custom.css">
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/accordion.js"></script>
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <script type="text/javascript">
+    $(function() {
+    	var x = $("#start img").width();
+    	var y = $("#start img").height();
+    	$("#start").css("width",x).css("height",y).css("background-size",x+"px "+y+"px");
+        $("#start img").hide();
+        $("#stepswrapper").hide();
+        $(".indicator").hide();
+        $("#mapicon").css("top",y*0.54).css("left",x*0.55);
+        $("#arrow").css("top",y*0.2).css("left",x+35);
+        $("#mapicon").show();
+        $("#mapicon").click(function(){
+            $("#start img").toggle();
+            $("#stepswrapper").toggle();
+            $(this).hide();
+        })
+    	$(".steps:first").click(function(){
+            arrowDown();
+            $("#start").click(function(){
+                $("#start").hide();
+                $("#routeicon").show();
+                arrowLeft();
+            });
+        });
+        //arrow control
+        function arrowDown(){
+            $("#arrow").fadeIn();
+            $("#arrow").animate({
+                top:"+=350px"
+            },1500, function(){
+                $("#arrow").fadeOut();
+            });
+        }
+
+        function arrowLeft(){
+            $("#arrow").css("top",y*0.75).css("transform","rotate(0deg)");
+            $("#arrow").fadeIn();
+        }
+    	
+    	function adjustTop() {
+			var x1 = x2 = $("#start").position().left;
+		    var y1 = 0;
+		    var y2 = y*2-(y-$("#start").position().top);
+		    var upper = (y2);
+		    console.log("#start left :" + x1 + " top:" + upper);
+		    $("#imgwrapper").css("height",upper);
+    	}
+            
+        $("#deswrapper").click(function(){
+            var prompttop = $("#prmopt").position().top;
+            console.log("prompttop " + prompttop)
+            if(prompttop>-100){
+                //if($("#placeprompt").css("display")=="block"){
+                // alert("please tap on the starting point input!");
+                //}
+            } else{
+                var top = $("#prmopt").height();
+                $("#prmopt").animate({
+                    top: "+=" + top
+                }, 1000, function() {
+                    $("#placeprompt").click(function(){
+                        $("#placeprompt").hide("slow");
+                        $("#chooseonmap").animate({
+                            opacity:"+=" +1
+                        }, 1000, function() {
+                            $("#locinput").show();
+                        });
+                    });
+                });
+            }
+        });
+
+        //choose destination on map
+        $("#locinput").click(function(){
+           $(this).animate({
+            top: "+=450px",
+            left: "+=275px",
+            height: "+=200px",
+            width: "-=380px"
+        },1000,function(){
+            $("#chooseonmap").hide();
+            //show after user click on map
+            $("#locinput").click(function(){ 
+                $(this).hide();
+                $("#fromcurrentloc").css("opacity",1);
+                $("#prompt").show();
+                $("#locinput2").show();
+            });   
+        }); 
+        });
+        //choose walking route
+        $("#locinput2").click(function(){
+            $(this).hide();
+            $("#fromcurrentloc").css("opacity",0);
+            $("#walking").show();
+            setTimeout(function(){
+               $("#choosewalk").show();     
+            },1000);
+        });     
+        //show route on map
+        $("#choosewalk").click(function(){
+            $("#choosewalk").hide();
+            $("#walking").hide();
+            $("#showroute").show();
+        });
+        // $(".wrapper div").click(function(e) {
+        //     var $this = $(this);
+        //     var top = $this.height();
+        //     var length = $(".wrapper div").length-2;
+        //     if ($this.attr("id") != "end") {
+        //         $(".wrapper div").animate({
+        //             top: "-=" + top
+        //         }, 1000, function() {});
+        //     } else {
+        //         $(".wrapper div").animate({
+        //             top: "+=" + top*length
+        //         }, 500, function() {});
+        //     }
+        // })
+    });
+    </script>
+    <style>
+    .wrapper{
+    	float: left;
+    }
+    #start {
+        background: url(hw3/homemenu.png) no-repeat;        
+    	overflow: hidden;
+    	position: absolute;
+        z-index: 10;
+    }
+    #routeicon{
+        top: 675px;
+        left: 445px;
+        width: 90px;
+        height: 90px;
+    }
+    #mapicon{
+        width: 200px;
+        height: 145px;        
+    }
+    .indicator{
+        position: absolute;
+        z-index: 10;
+        border: 2px solid blue;
+    }
+	#des{
+    	position: relative;
+    	z-index: 9;
+    }
+    #divwrapper {
+        position: absolute;
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+    }
+    
+    #divwrapper,
+    #divwrapper div {
+        width: 150px;
+        height: 150px;
+        position: relative;
+    }
+    #arrow{
+    	background: url(hw3/back-icon.png) no-repeat;
+    	height: 120px;
+    	position: relative;
+    	width: 120px;
+        display: none;
+        z-index: -1;
+        transform: rotate(270deg);
+        -ms-transform: rotate(270deg); /* IE 9 */
+        -webkit-transform: rotate(270deg); /* Chrome, Safari, Opera */
+    }
+    #prmopt{
+        position: absolute;
+        z-index: 10;
+        left: 16px;
+        top:-315px;
+    }
+    #locinput{
+        height: 50px;
+        width: 350px;
+        margin: 20px 0 0 115px;
+        background-color: white;
+        border-left: 2px solid black;
+        position: relative;
+        z-index: 11;
+        display: none;
+    }
+    #locinput2{
+        height: 75px;
+        width: 510px;
+        margin: 250px 0 0 10px;
+        border:3px solid #90C3D4;
+        display: none;
+        z-index: 4;
+        position: absolute;
+    }
+    #choosewalk{
+        height: 45px;
+        width: 45px;
+        z-index: 4;
+        position: absolute;
+        margin: 20px 0 0 275px;
+        border:3px solid orange;
+        display: none;
+    }
+    #placeprompt{
+        position: absolute;
+        top:0;
+        z-index: 2;
+    }
+    #fromcurrentloc{
+        position: relative;
+        z-index: 1;
+        opacity: 0;
+    }
+    #chooseonmap{
+        position: absolute;
+        opacity: 0;
+    }
+    #destination{
+        text-indent: 5px;
+        font-size: 25px;
+        padding-top: 10px;
+    }
+    #walking{
+        display: none;
+        position: absolute;
+        z-index: 4;
+    }
+    #showroute{
+        display: none;
+        position: absolute;
+        z-index: 3;
+    }
+    #stepswrapper {
+        margin-top: 5%;
+    }
+   .steps {
+        background-color: #c390d4;
+    }
+    
+    #blue {
+        background-color: #90C3D4;
+    }
+    
+    #yellow {
+        background-color: #F0E9C2;
+    }
+    
+    #green {
+        background-color: #C2F0D2;
+    }
+    .icon{
+        background-color: #C2F0D2;
+        width: 150px;
+        height: 150px;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+    	<!-- demonstration -->
+        <div id="start" class="wrapper">
+        <div id="mapicon" class="indicator"></div>
+        	<img src="hw3/firstscreen.png" class="img-responsive">
+        </div>
+        <div id="deswrapper" class="wrapper">
+            <div id="routeicon" class="indicator"></div>
+        	<img src="hw3/destination.png" id="des" class="img-responsive">
+            <div id="prmopt">
+                <img src="hw3/placeprompt.png" id="placeprompt" class="img-responsive">
+                <img src="hw3/fromcurrentloc.png" id="fromcurrentloc" class="img-responsive">
+            </div>
+        </div>
+        <div id="chooseonmap" class="wrapper">
+            <div id="locinput">
+                <p id="destination">Choose destination</p>
+            </div>  
+            <img src="hw3/choosestart.png" class="keyboard img-responsive">
+        </div>
+        <div id="walking" class="wrapper">
+            <img src="hw3/walking.png" class="img-responsive">
+        </div>
+        <div id="showroute" class="wrapper">
+            <img src="hw3/deswithroute.png" class="img-responsive">
+        </div>
+        <div id="locinput2"></div>
+        <div id="choosewalk"></div>
+        <div id="arrow"></div>
+        <div id="stepswrapper" class="span6">
+            <div class="steps">Instruction 1</div>
+            <div id="blue">Instruction 2</div>
+            <div id="green">Instruction 3</div>
+            <div id="yellow">Instruction 4</div>
+            <div id="end">Instruction 5</div>
+        </div>  
+        </div>
+        
+    </div>
+</body>
+
+</html>

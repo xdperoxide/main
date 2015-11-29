@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset='utf-8'>
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">
+		<link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+		<link rel="shortcut icon" href="../favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" type="text/css" href="../css/stylesheet.css" media="screen">
+		<link rel="stylesheet" type="text/css" href="../css/accordion.css">
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap-theme.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap-responsive.min.css">
+		<link rel="stylesheet" type="text/css" href="../css/custom.css">
+		<script src="../js/jquery-1.10.2.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
+		<script src="../js/accordion.js"></script>
+		<!--[if lt IE 9]>
+		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<script type="text/javascript">
+		$(function(){
+			$("<img src='../images/btn-accordion.png' />").insertAfter($("a[role=button]"));
+			$("a[role=button]").click(function(){
+				if($(this).hasClass("collapsed")){
+					$(this).parents("h4").find("img").attr("src","../images/btn-accordion2.png");
+				} else {
+					$(this).parents("h4").find("img").attr("src","../images/btn-accordion.png");
+				}
+			})
+		})
+		</script>
+		<title>Homework #3&4</title>
+	</head>
+	<body>
+		<div class="container-fluid">
+			<nav class="navbar navbar-default navbar-fixed-top">
+				<div class="container">
+					<div class="navbar-collapse" id="bs-example-navbar-collapse-6">
+						<span class="navbar-brand">Assignment</span>
+						<ul class="nav navbar-nav">
+							<li><a href="../index.html" class="navbar-link">0</a></li>
+							<li><a href="../index.html#hw1" class="navbar-link">1</a></li>
+							<li><a href="../hw2/index.html" class="navbar-link">2</a></li>
+							<li><a href="#" class="navbar-link active">3&4</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<header>
+				<h1>Homework 3&4: Protoyping + Real User Testing</h1>
+			</header>
+			<main id="hw3" class="row-fluid" role="main">
+			<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+				<div class="panel panel-info">
+					<div class="panel-heading"><h4 class="panel-title">About the Prototyping</h4></div>
+					<div class="panel-body">
+						<ol>
+							<li><a href="#">The News app</a></li>
+							<li><strong>Google map tutorial</strong>
+							<p>Many elderly stays active in their golden age. They would like to explore new place around without assistance from their family members. Elderly owning smartphones seldom use the map app to search location by themselves. Some of them still follow a hand drawn map when going to somewhere they have never been there. This map tutorial is an interactive webpage teaching elderly how to use Google Map on android. User will be assigned to complete a task of searching location and the route to the destination on map. The map app on iOS works similar to the Google map in android. iOS users can learn the basic location searching function with this exercise as well.</p>
+							<p><a href="../hw3demo.html">Here</a> is the revised demo after real user testing.</p>	
+							</li>
+						</ol>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading" role="tab" id="headingOne">
+						<h4 class="panel-title">
+						<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Design decision
+						</a>
+						</h4>
+					</div>
+					<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+						<div class="panel-body">
+							<p>
+								Most elderly prefer large icons and text as they may have bad sight. As the target user are those who never use Google Map before, the following features are considered according to the need of target user:
+							</p>
+							<ul>
+								<li><p>Large icons, simple layout on homemenu</p></li>
+								<li><p>Verbal step-by-step instructions on how to control the application.</p></li>
+								<li><p>The given instruction clearly defines the action user should take on each step, e.g. tap an icon, scroll the screen</p></li>
+								<li><p>An obvious indicator will provide hints on the control action in each step, such as moving up arrow as scrolling, pointing to icons/input user should tap The distance between starting point and destination in the given task is neither too far away (e.g. Yuen Long to Kowloon) nor too close (e.g. two buildings at the same street) to simplify the task complexity. Specify precisely the starting point and destination to prevent confusion</p></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading" role="tab" id="headingTwo">
+						<h4 class="panel-title">
+						<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+							Testing task - find a place with Google Map
+						</a>
+						</h4>
+					</div>
+					<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+						<div class="panel-body">
+							Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading" role="tab" id="headingThree">
+						<h4 class="panel-title">
+						<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+							Persona Test
+						</a>
+						</h4>
+					</div>
+					<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+						<div class="panel-body">
+							Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading" role="tab" id="headingFour">
+						<h4 class="panel-title">
+						<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+							Problems in real user testing
+						</a>
+						</h4>
+					</div>
+					<div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+						<div class="panel-body">
+							Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+						</div>
+					</div>
+				</div>
+				<div class="panel panel-default">
+					<div class="panel-heading" role="tab" id="headingFive">
+						<h4 class="panel-title">
+						<a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+							Lesson learnt
+						</a>
+						</h4>
+					</div>
+					<div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+						<div class="panel-body">
+							Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+						</div>
+					</div>
+				</div>
+			</div>
+			</main>
+		</body>
+	</html>

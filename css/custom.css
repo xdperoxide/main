@@ -79,3 +79,18 @@ body {
 	padding:0!important;
 	background-color: #333333!important;
 }
+
+/*hw3*/
+#hw3 li p{
+	margin-right: 25px!important;
+}
+#hw3 .panel-title{
+	position: relative;
+}
+#hw3 .panel-title img{
+	position: absolute;
+	width: 25px;
+	height:25px;
+	top: -25%;
+	right: 0px;
+}
