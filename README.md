@@ -1,4 +1,6 @@
-main
+COMP 5517 Human Computer Interface Homework page
 ====
-15/12 add the js and stylesheet
-18/12 add images and two google map example
+Homework#0 prototype ideas
+Homework#1 ui critiques
+Homework#2 task analysis with persona
+Homework#3&4 Prototyping + test result
