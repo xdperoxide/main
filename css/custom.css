@@ -94,3 +94,26 @@ body {
 	top: -25%;
 	right: 0px;
 }
+#hw3 .panel-title a{
+	display: inline-block;
+	width: 95%;
+}
+#hw3 .sublist{
+	list-style-type: circle;
+}
+
+.inline-img{
+	display: inline-block;
+	vertical-align: bottom;
+}
+.icons{
+	width:5%;
+	height:5%;
+}
+#bigarrow{
+	width:8%;
+}
+#hm {
+	float: right;
+	width: 15%;
+}
