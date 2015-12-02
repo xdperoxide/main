@@ -117,3 +117,6 @@ body {
 	float: right;
 	width: 15%;
 }
+.clearleft{
+	clear: left;
+}
